@@ -1,6 +1,6 @@
 #!/bin/sh
 # Start Nginx service
-service nginx start
+nginx -g 'daemon off;'
 # Run Laravel migrations
 php artisan migrate --force
 # Create symbolic link for storage
