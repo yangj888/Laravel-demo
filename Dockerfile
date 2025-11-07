@@ -14,7 +14,7 @@ RUN mkdir -p /run/nginx /var/log/supervisor
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY supervisord.conf /etc/supervisord.conf
 EXPOSE 80
-RUN ls -l /var/www/html && chown -R nginx:nginx /var/www/html && chmod -R 775 /var/www/html && ls -l /var/www/html
+RUN ls -l /var/www/html/laravel-demo && chown -R nginx:nginx /var/www/html/laravel-demo && chmod -R 775 /var/www/html/laravel-demo && ls -l /var/www/html/laravel-demo
 #
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
 
