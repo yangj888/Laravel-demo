@@ -9,6 +9,8 @@ WORKDIR /var/www/html
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 ENV COMPOSER_ROOT_VERSION=1.0.0
 RUN composer create-project laravel/laravel laravel-demo
+RUN ls -al laravel-demo/routes/
+COPY web.php laravel-demo/routes/
 RUN chmod -R 777 laravel-demo && ls -al laravel-demo && ls -al laravel-demo/storage && ls -al laravel-demo/bootstrap/cache
 RUN mkdir -p /run/nginx /var/log/supervisor
 COPY nginx.conf /etc/nginx/nginx.conf
