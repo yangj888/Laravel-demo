@@ -8,8 +8,14 @@ WORKDIR /var/www/html
 COPY composer.json ./
 # install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN composer install --no-dev --optimize-autoloader
-COPY . .
+RUN composer create-project laravel/laravel .
+COPY ./routes ./routes
+COPY ./app ./app
+COPY ./resources ./resources
+RUN composer install --no-dev --optimize-autoloader \
+    && php artisan config:clear || true \
+    && php artisan route:clear || true \
+    && php artisan cache:clear || true
 RUN mkdir -p /run/nginx /var/log/supervisor
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY supervisord.conf /etc/supervisord.conf
