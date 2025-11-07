@@ -1,6 +1,4 @@
 FROM php:8.4-fpm-alpine
-
-ARG user=www-data
 # install dependency
 RUN apk add --no-cache git curl zip libzip-dev nginx unzip libpng-dev libonig-dev libxml2-dev libjpeg-turbo-dev libwebp-dev freetype-dev oniguruma-dev postgresql-dev \
     && docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype \
@@ -8,15 +6,13 @@ RUN apk add --no-cache git curl zip libzip-dev nginx unzip libpng-dev libonig-de
 
 WORKDIR /var/www
 COPY composer.json ./
-# install Composer
-COPY --from=public.ecr.aws/composer/composer:latest-bin /usr/bin/composer /usr/bin/composer
-RUN mkdir -p /home/$user/.composer && chown -R $user:$user /home/$user
 COPY default.conf /etc/nginx/sites-enabled/default
 COPY entrypoint.sh /etc/entrypoint.sh
 RUN chmod +x /etc/entrypoint.sh
-
+# install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install --no-dev --optimize-autoloader
-COPY --chown=www-data:www-data . /var/www
+COPY . /var/www
 EXPOSE 80
 #
 ENTRYPOINT ["/etc/entrypoint.sh"]
