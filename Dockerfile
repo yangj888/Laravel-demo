@@ -4,7 +4,7 @@ RUN apk add --no-cache git curl zip unzip libzip-dev nginx supervisor unzip libp
     && docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype \
     && docker-php-ext-install pdo pdo_pgsql mbstring gd
 
-WORKDIR /var/www/html/laravel-demo
+WORKDIR /var/www/html
 # install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 ENV COMPOSER_ROOT_VERSION=1.0.0
