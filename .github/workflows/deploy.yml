@@ -27,7 +27,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t laravel-app:latest .
+          docker build --no-cache -t laravel-app:latest .
           docker tag laravel-app:latest 495930421214.dkr.ecr.ap-northeast-1.amazonaws.com/laravel-demo:latest
 
       - name: Push to ECR
