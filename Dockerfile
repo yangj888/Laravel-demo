@@ -11,13 +11,13 @@ COPY composer.json ./
 # install Composer
 COPY --from=public.ecr.aws/composer/composer:latest-bin /usr/bin/composer /usr/bin/composer
 RUN mkdir -p /home/$user/.composer && chown -R $user:$user /home/$user
-COPY ./docker/default.conf /etc/nginx/sites-enabled/default
-COPY ./docker/entrypoint.sh /etc/entrypoint.sh
+COPY default.conf /etc/nginx/sites-enabled/default
+COPY entrypoint.sh /etc/entrypoint.sh
 RUN chmod +x /etc/entrypoint.sh
 
 RUN composer install --no-dev --optimize-autoloader
 COPY --chown=www-data:www-data . /var/www
 EXPOSE 80
-# start
+#
 ENTRYPOINT ["/etc/entrypoint.sh"]
 
