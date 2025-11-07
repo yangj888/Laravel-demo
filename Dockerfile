@@ -8,8 +8,8 @@ WORKDIR /var/www/html
 # install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 ENV COMPOSER_ROOT_VERSION=1.0.0
-RUN composer create-project laravel/laravel . --prefer-dist --no-interaction --no-progress
-COPY web.php ./routes/web.php
+RUN composer create-project laravel/laravel laravel-demo
+COPY web.php ./laravel-demo/routes/web.php
 RUN composer install --no-dev --optimize-autoloader \
     && php artisan config:clear || true \
     && php artisan route:clear || true \
