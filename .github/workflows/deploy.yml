@@ -1,1 +1,49 @@
-"hi" 
+name: Deploy Laravel to ECS
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/github-oidc-role
+          aws-region: ap-northeast-1
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build Docker image
+        run: |
+          docker build -t laravel-app:latest .
+          docker tag laravel-app:latest 123456789012.dkr.ecr.ap-northeast-1.amazonaws.com/laravel-app:${{ github.sha }}
+
+      - name: Push to ECR
+        run: docker push 123456789012.dkr.ecr.ap-northeast-1.amazonaws.com/laravel-app:${{ github.sha }}
+
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ecs-task-def.json
+          service: laravel-service
+          cluster: laravel-cluster
+          image: 123456789012.dkr.ecr.ap-northeast-1.amazonaws.com/laravel-app:${{ github.sha }}
+
+      - name: Notify success
+        if: success()
+        run: aws sns publish --topic-arn arn:aws:sns:ap-northeast-1:123456789012:deploy-success --message "✅ ECS 部署成功: ${{ github.sha }}"
+
+      - name: Notify failure
+        if: failure()
+        run: aws sns publish --topic-arn arn:aws:sns:ap-northeast-1:123456789012:deploy-failure --message "❌ ECS 部署失败: ${{ github.sha }}"
