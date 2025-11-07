@@ -10,12 +10,13 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 ENV COMPOSER_ROOT_VERSION=1.0.0
 RUN composer create-project laravel/laravel laravel-demo
 COPY web.php ./routes/web.php
-COPY .env.example ./.env
+RUN php -r "echo env('APP_NAME');"
+RUN chmod -R 775 /var/www/html/laravel-demo
+RUN tail -n 200 storage/logs/laravel.log
 RUN mkdir -p /run/nginx /var/log/supervisor
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY supervisord.conf /etc/supervisord.conf
 EXPOSE 80
-RUN chown -R www-data:www-data /var/www/html/laravel-demo/storage /var/www/html/laravel-demo/bootstrap/cache && chmod -R 775 /var/www/html/laravel-demo/storage /var/www/html/laravel-demo/bootstrap/cache
 #
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
 
