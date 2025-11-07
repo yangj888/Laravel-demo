@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Start Nginx service
 service nginx start
 # Run Laravel migrations
