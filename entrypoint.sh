@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # Start Nginx service
 service nginx start
 # Run Laravel migrations
