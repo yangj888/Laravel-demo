@@ -2,7 +2,7 @@ FROM php:8.4-fpm-alpine
 # install dependency
 RUN apk add --no-cache git curl zip libzip-dev nginx unzip libpng-dev libonig-dev libxml2-dev libjpeg-turbo-dev libwebp-dev freetype-dev oniguruma-dev postgresql-dev \
     && docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype \
-    && docker-php-ext-install pdo pdo_pgsql mbstring gd zip bcmath pcntl exif
+    && docker-php-ext-install pdo pdo_pgsql mbstring gd
 
 WORKDIR /var/www
 COPY composer.json ./
