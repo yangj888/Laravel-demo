@@ -10,8 +10,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 ENV COMPOSER_ROOT_VERSION=1.0.0
 RUN composer create-project laravel/laravel laravel-demo
 RUN ls -al laravel-demo/routes/
-RUN cat laravel-demo/.env
-RUN cat laravel-demo/config/logging.php
+RUN sed -i 's/^LOG_CHANNEL=.*/LOG_CHANNEL=stderr/' laravel-demo/.env
+RUN grep "LOG_CHANNEL" laravel-demo/.env
 COPY web.php laravel-demo/routes/
 RUN chmod -R 777 laravel-demo
 RUN mkdir -p /run/nginx /var/log/supervisor
