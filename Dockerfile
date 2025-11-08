@@ -13,8 +13,8 @@ RUN sed -i 's/^LOG_STACK=.*/LOG_STACK=stderr,single/' laravel-demo/.env
 RUN grep "LOG_STACK" laravel-demo/.env
 COPY web.php laravel-demo/routes/
 COPY logging.php laravel-demo/config/
-RUN chmod -R 777 laravel-demo
-RUN ls -al laravel-demo/
+RUN chown -R www-data:www-data laravel-demo && chmod -R 777 laravel-demo
+RUN ls -al laravel-demo/storage
 RUN mkdir -p /run/nginx /var/log/supervisor
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY supervisord.conf /etc/supervisord.conf
