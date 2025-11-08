@@ -12,6 +12,7 @@ RUN composer create-project laravel/laravel laravel-demo
 RUN sed -i 's/^LOG_STACK=.*/LOG_STACK=stderr,single/' laravel-demo/.env
 RUN grep "LOG_STACK" laravel-demo/.env
 COPY web.php laravel-demo/routes/
+COPY logging.php laravel-demo/config/
 RUN chmod -R 777 laravel-demo
 RUN ls -al laravel-demo/storage/logs/
 RUN mkdir -p /run/nginx /var/log/supervisor
