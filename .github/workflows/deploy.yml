@@ -40,3 +40,11 @@ jobs:
           service: laravel-task-service-6688
           cluster: laravel-cluster-demo
           image: 495930421214.dkr.ecr.ap-northeast-1.amazonaws.com/laravel-demo:latest
+
+      - name: Notify success
+        if: success()
+        run: aws sns publish --topic-arn arn:aws:sns:ap-northeast-1:495930421214:sns-alert-demo --message "✅ ECS 部署成功" --subject "ECS 部署成功"
+
+      - name: Notify failure
+        if: failure()
+        run: aws sns publish --topic-arn arn:aws:sns:ap-northeast-1:495930421214:sns-alert-demo --message "❌ ECS 部署失败" --subject "ECS 部署失败"
