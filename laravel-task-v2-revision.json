@@ -7,7 +7,20 @@
     "containerDefinitions": [
         {
             "cpu": 1024,
-            "environment": [],
+            "environment": [
+                {
+                    "name": "APP_ENV",
+                    "value": "production-demo"
+                },
+                {
+                    "name": "APP_NAME",
+                    "value": "MyLaravelApp-first"
+                },
+                {
+                    "name": "APP_VERSION",
+                    "value": "v1.0.0"
+                }   
+            ],
             "environmentFiles": [],
             "essential": true,
             "image": "495930421214.dkr.ecr.ap-northeast-1.amazonaws.com/laravel-demo:latest",
