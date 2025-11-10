@@ -14,6 +14,7 @@ RUN grep "LOG_STACK" laravel-demo/.env
 COPY web.php laravel-demo/routes/
 COPY logging.php laravel-demo/config/
 RUN chown -R www-data:www-data laravel-demo && chmod -R 777 laravel-demo
+RUN curl "http://localhost:2772/applications/laravel-config-v1/environments/laravel-appconfig-demo/configurations/laravel-config"
 RUN ls -al laravel-demo/storage/logs
 RUN mkdir -p /run/nginx /var/log/supervisor
 COPY nginx.conf /etc/nginx/nginx.conf
