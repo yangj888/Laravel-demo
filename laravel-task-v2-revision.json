@@ -1,25 +1,21 @@
 {
     "compatibilities": [
         "EC2",
-        "MANAGED_INSTANCES",
-        "FARGATE"
+        "FARGATE",
+        "MANAGED_INSTANCES"
     ],
     "containerDefinitions": [
         {
-            "cpu": 1024,
+            "cpu": 0,
             "environment": [
                 {
-                    "name": "APP_ENV",
-                    "value": "production-demo"
-                },
-                {
                     "name": "APP_NAME",
-                    "value": "MyLaravelApp-first"
+                    "value": "http://localhost:2772/config"
                 },
                 {
                     "name": "APP_VERSION",
-                    "value": "v1.0.0"
-                }   
+                    "value": "http://localhost:2772/config"
+                }
             ],
             "environmentFiles": [],
             "essential": true,
@@ -27,13 +23,14 @@
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
-                    "awslogs-group": "/ecs/laravel-task",
+                    "awslogs-group": "/ecs/laravel-task-v5",
                     "awslogs-create-group": "true",
                     "awslogs-region": "ap-northeast-1",
                     "awslogs-stream-prefix": "ecs"
                 },
                 "secretOptions": []
             },
+            "memory": 2048,
             "mountPoints": [],
             "name": "laravel-app",
             "portMappings": [
@@ -48,16 +45,56 @@
             "systemControls": [],
             "ulimits": [],
             "volumesFrom": []
+        },
+        {
+            "cpu": 0,
+            "environment": [
+                {
+                    "name": "APP_CONFIG_APPLICATION",
+                    "value": "laravel-config-v1"
+                },
+                {
+                    "name": "APP_CONFIG_CONFIGURATION_PROFILE",
+                    "value": "laravel-config"
+                }
+            ],
+            "environmentFiles": [],
+            "essential": true,
+            "image": "public.ecr.aws/aws-appconfig/aws-appconfig-agent:2.x",
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/laravel-task-v5",
+                    "awslogs-create-group": "true",
+                    "awslogs-region": "ap-northeast-1",
+                    "awslogs-stream-prefix": "ecs"
+                },
+                "secretOptions": []
+            },
+            "memory": 1024,
+            "mountPoints": [],
+            "name": "lavarel-appconfig-demo",
+            "portMappings": [
+                {
+                    "appProtocol": "http",
+                    "containerPort": 2772,
+                    "hostPort": 2772,
+                    "name": "lavarel-appconfig",
+                    "protocol": "tcp"
+                }
+            ],
+            "systemControls": [],
+            "volumesFrom": []
         }
     ],
     "cpu": "1024",
     "enableFaultInjection": false,
     "executionRoleArn": "arn:aws:iam::495930421214:role/ecsTaskExecutionRole",
-    "family": "laravel-task-v2",
+    "family": "laravel-task-v5",
     "memory": "2048",
     "networkMode": "awsvpc",
     "placementConstraints": [],
-    "registeredAt": "2025-11-07T10:27:57.438Z",
+    "registeredAt": "2025-11-10T04:37:28.307Z",
     "registeredBy": "arn:aws:iam::495930421214:user/yangchangwu",
     "requiresAttributes": [
         {
@@ -97,7 +134,7 @@
         "operatingSystemFamily": "LINUX"
     },
     "status": "ACTIVE",
-    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-1:495930421214:task-definition/laravel-task-v2:1",
+    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-1:495930421214:task-definition/laravel-task-v5:1",
     "taskRoleArn": "arn:aws:iam::495930421214:role/ecsTaskExecutionRole",
     "volumes": [],
     "tags": []
