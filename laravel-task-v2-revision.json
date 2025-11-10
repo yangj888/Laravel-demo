@@ -45,6 +45,10 @@
                     "value": "laravel-config-v1"
                 },
                 {
+                    "name": "APP_CONFIG_ENVIRONMENT",
+                    "value": "laravel-appconfig-demo"
+                },
+                {
                     "name": "APP_CONFIG_CONFIGURATION_PROFILE",
                     "value": "laravel-config"
                 }
