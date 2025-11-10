@@ -7,16 +7,7 @@
     "containerDefinitions": [
         {
             "cpu": 0,
-            "environment": [
-                {
-                    "name": "APP_NAME",
-                    "value": "http://localhost:2772/config"
-                },
-                {
-                    "name": "APP_VERSION",
-                    "value": "http://localhost:2772/config"
-                }
-            ],
+            "environment": [],
             "environmentFiles": [],
             "essential": true,
             "image": "495930421214.dkr.ecr.ap-northeast-1.amazonaws.com/laravel-demo:latest",
